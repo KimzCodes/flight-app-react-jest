@@ -43,21 +43,12 @@ const InsertFlight = () => {
     getFieldState,
     trigger,
     setValue,
-    setError,
+
     clearErrors,
     formState: { errors },
   } = useForm<FormValues>({
     mode: "onBlur",
   });
-
-  useEffect(() => {
-    if (checkingCodeAvailability === "unavailable") {
-      setError("code", {
-        type: "custom",
-        message: "Code is already existing, please try again",
-      });
-    }
-  }, [checkingCodeAvailability, setError]);
 
   useEffect(() => {
     return () => {
@@ -75,6 +66,7 @@ const InsertFlight = () => {
   //if yes setFireCheckCodeAvailability -> true
   const handleCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    console.log("s");
     setValue("code", value);
     setFireCheckCodeAvailability(true);
   };
@@ -87,8 +79,8 @@ const InsertFlight = () => {
     e: React.FocusEvent<HTMLInputElement>
   ) => {
     await trigger("code");
-    const value = e.target.value;
     const status = getFieldState("code");
+    const value = e.target.value;
 
     if (!status.invalid && fireCheckCodeAvailability) {
       dispatch(actCheckingCodeAvailability(value)).unwrap();
@@ -126,7 +118,9 @@ const InsertFlight = () => {
           <Form.Control
             type="text"
             {...register("code", codeValidation)}
-            isInvalid={!!errors.code}
+            isInvalid={
+              !!errors.code || checkingCodeAvailability === "unavailable"
+            }
             isValid={checkingCodeAvailability === "available" && !errors.code} //to show green flag when code is available
             disabled={checkingCodeAvailability === "pending"} //disable input while do checking
             onBlur={checkCodeAvailabilityHandler}
@@ -142,9 +136,13 @@ const InsertFlight = () => {
           <Form.Control.Feedback type="valid">
             Looks good!
           </Form.Control.Feedback>
-
           <Form.Control.Feedback type="invalid">
             {errors.code?.message}
+          </Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">
+            {!errors.code?.message && checkingCodeAvailability === "unavailable"
+              ? "Code is already existing, please try again"
+              : ""}
           </Form.Control.Feedback>
         </Form.Group>
 
