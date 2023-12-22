@@ -91,8 +91,8 @@ const InsertFlight = () => {
     const status = getFieldState("code");
 
     if (!status.invalid && fireCheckCodeAvailability) {
-      setFireCheckCodeAvailability(false);
       dispatch(actCheckingCodeAvailability(value)).unwrap();
+      setFireCheckCodeAvailability(false);
     }
   };
 
@@ -220,7 +220,8 @@ const InsertFlight = () => {
           disabled={
             loading === "pending"
               ? true
-              : checkingCodeAvailability === "pending"
+              : checkingCodeAvailability === "pending" ||
+                checkingCodeAvailability === "unavailable"
               ? true
               : false
           }

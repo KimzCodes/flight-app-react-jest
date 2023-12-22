@@ -53,6 +53,7 @@ const ModalEdit = memo(({ showDialog, setShowDialog, flightData }: Props) => {
     }
     return () => {
       setFlightHasImage(false);
+      setUploadImagePreview(null);
     };
   }, [flightData, reset]);
 
