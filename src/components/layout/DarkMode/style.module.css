@@ -1,12 +1,13 @@
 .darkMode {
   display: flex;
+  flex-direction: row-reverse;
   align-items: center;
   width: auto;
 }
 
 .darkMode h5 {
   font-size: 17px;
-  margin-right: 10px;
+  margin-left: 10px;
   margin-top: 8px;
 }
 

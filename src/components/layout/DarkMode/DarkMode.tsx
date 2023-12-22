@@ -18,7 +18,7 @@ const DarkMode = () => {
 
   return (
     <div className={styles.darkMode}>
-      <h5>DarkMode</h5>
+      <h5>{darkModeOn ? "Dark Mode" : "Light Mode"}</h5>
       <label className={styles.toggleSwitch}>
         <input
           type="checkbox"
